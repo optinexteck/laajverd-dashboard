@@ -8,9 +8,8 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import InputAdornment from '@mui/material/InputAdornment';
-
 import { useRouter } from 'src/routes/hooks';
-
+import axios from 'axios';
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
@@ -20,12 +19,40 @@ export function SignInView() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSignIn = useCallback(() => {
-    router.push('/');
-  }, [router]);
+  const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    // Get form data using FormData
+    const formData = new FormData(e.currentTarget);
+    
+    const email = formData.get('email');
+    const password = formData.get('password');
+
+    axios.post('http://localhost:3000/api/auth/login', {
+      email,
+      password
+    }).then(
+      (res)=>{
+        console.log(res.data.data.token);
+      }
+    )
+
+    console.log({
+      email,
+      password
+    });
+    
+    // Now you can use these values to make your API call
+  };
 
   const renderForm = (
-    <Box display="flex" flexDirection="column" alignItems="flex-end">
+    <Box 
+      component="form" 
+      onSubmit={handleSignIn} 
+      display="flex" 
+      flexDirection="column" 
+      alignItems="flex-end"
+    >
       <TextField
         fullWidth
         name="email"
@@ -64,7 +91,6 @@ export function SignInView() {
         type="submit"
         color="inherit"
         variant="contained"
-        onClick={handleSignIn}
       >
         Sign in
       </LoadingButton>
