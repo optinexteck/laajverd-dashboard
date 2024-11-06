@@ -38,21 +38,24 @@ export function UserView() {
     comparator: getComparator(table.order, table.orderBy),
     filterName,
   });
-  console.log(dataFiltered);
 
   const notFound = !dataFiltered.length && !!filterName;
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    axios.get('http://localhost:3000/api/user/services', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).then((res) => {
-      setData(res.data.data);
-      console.log(res.data.data);
-    })
-  }, [])
+  useEffect(
+    ()=>{
+          const token = localStorage.getItem('token');
+      axios.get('http://localhost:3000/api/user/services',{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      }).then(
+        (res)=>{
+          setData(res.data);
+          console.log(data);
+        }
+      )
+    },[]
+  )
 
   return (
     <DashboardContent>
@@ -95,16 +98,16 @@ export function UserView() {
                   )
                 }
                 headLabel={[
-                  { id: 'date', label: 'Date' },
-                  { id: 'title', label: 'Title' },
-                  { id: 'category', label: 'Category' },
-                  { id: 'pricing', label: 'Pricing', align: 'center' },
+                  { id: 'name', label: 'Name' },
+                  { id: 'company', label: 'Company' },
+                  { id: 'role', label: 'Role' },
+                  { id: 'isVerified', label: 'Verified', align: 'center' },
                   { id: 'status', label: 'Status' },
                   { id: '' },
                 ]}
               />
               <TableBody>
-                {data
+                {dataFiltered
                   .slice(
                     table.page * table.rowsPerPage,
                     table.page * table.rowsPerPage + table.rowsPerPage

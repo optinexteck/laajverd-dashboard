@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
 
+import { useState, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
@@ -16,13 +16,12 @@ import { Iconify } from 'src/components/iconify';
 // ----------------------------------------------------------------------
 
 export type UserProps = {
-  id: string;
-  name: string;
-  role: string;
+  pricing: object;
+  title: string;
+  category: string;
   status: string;
-  company: string;
+  availability: string;
   avatarUrl: string;
-  isVerified: boolean;
 };
 
 type UserTableRowProps = {
@@ -33,6 +32,13 @@ type UserTableRowProps = {
 
 export function UserTableRow({ row, selected, onSelectRow }: UserTableRowProps) {
   const [openPopover, setOpenPopover] = useState<HTMLButtonElement | null>(null);
+
+  if(row.status==='approved'){
+    console.log(row.status);
+  }
+  else{
+    row.status='error';
+  }
 
   const handleOpenPopover = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setOpenPopover(event.currentTarget);
@@ -51,25 +57,21 @@ export function UserTableRow({ row, selected, onSelectRow }: UserTableRowProps) 
 
         <TableCell component="th" scope="row">
           <Box gap={2} display="flex" alignItems="center">
-            <Avatar alt={row.name} src={row.avatarUrl} />
-            {row.name}
+            <Avatar alt={row.title} src={row.avatarUrl} />
+            {row.availability}
           </Box>
         </TableCell>
 
-        <TableCell>{row.company}</TableCell>
+        <TableCell>{row.title}</TableCell>
 
-        <TableCell>{row.role}</TableCell>
+        <TableCell>{row.category}</TableCell>
 
         <TableCell align="center">
-          {row.isVerified ? (
-            <Iconify width={22} icon="solar:check-circle-bold" sx={{ color: 'success.main' }} />
-          ) : (
-            '-'
-          )}
+          {row.pricing.amount}
         </TableCell>
 
         <TableCell>
-          <Label color={(row.status === 'banned' && 'error') || 'success'}>{row.status}</Label>
+          <Label color={(row.status === 'banned' && 'error') || 'success'}>{row.status==='approved'?'Approved':'Pending'}</Label>
         </TableCell>
 
         <TableCell align="right">

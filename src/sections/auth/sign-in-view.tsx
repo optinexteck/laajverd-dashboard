@@ -11,12 +11,13 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { useRouter } from 'src/routes/hooks';
 import axios from 'axios';
 import { Iconify } from 'src/components/iconify';
+import { useNavigate } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
 export function SignInView() {
   const router = useRouter();
-
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
@@ -34,6 +35,8 @@ export function SignInView() {
     }).then(
       (res)=>{
         console.log(res.data.data.token);
+        localStorage.setItem('token', res.data.data.token);
+        navigate('/');
       }
     )
 

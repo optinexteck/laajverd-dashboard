@@ -63,16 +63,14 @@ export default function RegisterView() {
         phoneNumber,
       };
 
-      // Replace with your API endpoint
-      const response = axios.post('http://localhost:3000/api/auth/register', userData);
-
-      const data = await response.json();
-
-      if (response.ok) {
-        navigate('/');
-      } else {
-        setError(data.message || 'Registration failed');
-      }
+      axios.post('http://localhost:3000/api/auth/register', userData).then((response) => {
+        console.log('Registration successful:', response.data);
+        localStorage.setItem('token', response.data.token);
+        navigate('/')
+      }).catch((error) => {
+        setError(error);
+      });
+     
     } catch (error) {
       setError('An error occurred during registration');
       console.error('Registration error:', error);
