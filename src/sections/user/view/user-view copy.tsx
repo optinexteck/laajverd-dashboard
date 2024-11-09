@@ -54,7 +54,7 @@ export function UserView() {
           console.log(data);
         }
       )
-    },[]
+    }
   )
 
   return (

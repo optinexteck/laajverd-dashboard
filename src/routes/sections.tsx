@@ -17,6 +17,8 @@ export const SignInPage = lazy(() => import('src/pages/sign-in'));
 export const RegisterPage = lazy(() => import('src/pages/register'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
+export const ArchiveForm = lazy(() => import('src/pages/archiveForm'));
+export const GlossaryForm = lazy(() => import('src/pages/glossaryForm'));
 
 // ----------------------------------------------------------------------
 
@@ -60,6 +62,7 @@ export function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
+        { path: 'archive1', element: <ArchiveForm /> },
       ],
     },
     {
@@ -75,6 +78,22 @@ export function Router() {
       element: (
         <AuthLayout>
           <RegisterPage />
+        </AuthLayout>
+      ),
+    },
+    {
+      path: 'archive',
+      element: (
+        <AuthLayout>
+          <ArchiveForm />
+        </AuthLayout>
+      ),
+    },
+    {
+      path: 'glossary',
+      element: (
+        <AuthLayout>
+          <GlossaryForm />
         </AuthLayout>
       ),
     },
